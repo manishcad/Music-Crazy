@@ -155,6 +155,9 @@ const HomePage = () => {
                     transition: transform 0.3s ease-in-out;
                     cursor: pointer;
                     box-shadow: 0px 4px 10px rgba(255, 76, 76, 0.2);
+                    display:flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
                 .album-card:hover {
                     transform: scale(1.05);
