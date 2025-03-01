@@ -9,6 +9,10 @@ const nextConfig = {
         {
           protocol: 'https',
           hostname: 'www7.hiphopkit.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'upload.wikimedia.org',
         }
       ],
     },

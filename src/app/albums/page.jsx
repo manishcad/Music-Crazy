@@ -16,7 +16,7 @@ const MusicAlbums = () => {
     const fetchAlbums = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`https://music-crazy.netlify.app/api/albums?page=${page}&limit=${limit}`);
+            const response = await fetch(`/api/albums?page=${page}&limit=${limit}`);
             const data = await response.json();
             setAlbums(data.data); // Extract `data` from the response
         } catch (error) {

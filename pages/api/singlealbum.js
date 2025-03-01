@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     let albumData = [];
 
-    const zipFile=$(".song-download a").attr("href");
+    const zipFile=$(".song-download a").attr("href")|| null;
 
     console.log(zipFile); 
     $(".mu-o").each((index, element) => {

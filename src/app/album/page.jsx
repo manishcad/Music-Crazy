@@ -12,7 +12,7 @@ const AlbumDetails = () => {
     useEffect(() => {
         if (!url) return;
 
-        fetch(`https://music-crazy.netlify.app/api/singlealbum?link=${encodeURIComponent(url)}`)
+        fetch(`/api/singlealbum?link=${encodeURIComponent(url)}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.msg === "ok" && data.data.length > 0) {
@@ -35,7 +35,8 @@ const AlbumDetails = () => {
         <div className="album-details-container">
             {album.image && <img src={album.image} alt={album.title} className="album-cover" />}
             <h2 className="album-title">{album.title}</h2>
-            <a href={album.zipFile}><button className="zip-btn">Zip Download</button></a>
+            {album.zipFile && <a href={album.zipFile}><button className="zip-btn">Zip Download</button></a>}
+           
             <h3>Songs:</h3>
             <ul className="song-list">
                 {album.songs.map((song, index) => (
