@@ -12,7 +12,7 @@ const AlbumDetails = () => {
     useEffect(() => {
         if (!url) return;
 
-        fetch(`http://localhost:3000/api/singlealbum?link=${encodeURIComponent(url)}`)
+        fetch(`https://music-crazy.netlify.app/api/singlealbum?link=${encodeURIComponent(url)}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.msg === "ok" && data.data.length > 0) {
