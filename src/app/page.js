@@ -33,6 +33,7 @@ const HomePage = () => {
         setLoading(true);
 
         try {
+            console.log("handleSearchClick")
             const response = await axios.get(`/api/search?q=${searchQuery}`);
             setAlbums(response.data.data);
         } catch (error) {
@@ -40,6 +41,7 @@ const HomePage = () => {
         }
 
         setLoading(false);
+        console.log(response.data)
     };
 
     const handleAlbumClick = (link) => {
