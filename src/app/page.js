@@ -33,15 +33,16 @@ const HomePage = () => {
         setLoading(true);
 
         try {
-            console.log("handleSearchClick")
+            console.log("handleSearchClick 1")
             const response = await axios.get(`/api/search?q=${searchQuery}`);
             setAlbums(response.data.data);
+            console.log(response.data)
         } catch (error) {
             console.error("Error fetching albums:", error);
         }
 
         setLoading(false);
-        console.log(response.data)
+        
     };
 
     const handleAlbumClick = (link) => {
