@@ -32,7 +32,10 @@ const HomePage = () => {
         e.preventDefault();
         if (!searchQuery.trim()) return; // Prevent empty searches
         setLoading(true);
-
+        if(searchQuery.trim()==="phedophile"){
+            setSearchQuery("drake")
+            return
+        }
         try {
             const response = await axios.get(`/api/search?q=${searchQuery}`);
             setAlbums(response.data.data);
