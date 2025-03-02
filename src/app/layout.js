@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { Suspense } from "react";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,16 +20,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Suspense fallback={<p>Loading</p>}>
+    
+      <html lang="en">
+        <body>
+          <Suspense fallback={<p>Loading</p>}>
+            <Navbar />
+            {children}
 
-        <Navbar></Navbar>
-        {children}
-        </Suspense>
-      </body>
-    </html>
+          </Suspense>
+          <audio id="global-audio" controls style={{ display: "none" }}></audio>
+        </body>
+      </html>
+  
   );
 }
+

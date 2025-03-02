@@ -48,6 +48,7 @@ const HomePage = () => {
     };
 
     return (
+        
         <div className="homepage">
             <h1 className="title">🎵 Discover Music Albums</h1>
 
@@ -98,6 +99,9 @@ const HomePage = () => {
 
             {/* CSS Styling */}
             <style jsx>{`
+                form{
+                    width: 80%;
+                    }
                 .homepage {
                     text-align: center;
                     padding: 30px;
@@ -184,7 +188,9 @@ const HomePage = () => {
                 }
             `}</style>
         </div>
+        
     );
+    
 };
 
 export default HomePage;
