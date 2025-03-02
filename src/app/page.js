@@ -28,21 +28,19 @@ const HomePage = () => {
         setLoading(false);
     };
 
-    const handleSearchClick = async () => {
+    const handleSearchClick = async (e) => {
+        e.preventDefault();
         if (!searchQuery.trim()) return; // Prevent empty searches
         setLoading(true);
 
         try {
-            console.log("handleSearchClick 1")
             const response = await axios.get(`/api/search?q=${searchQuery}`);
             setAlbums(response.data.data);
-            console.log(response.data)
         } catch (error) {
             console.error("Error fetching albums:", error);
         }
 
         setLoading(false);
-        
     };
 
     const handleAlbumClick = (link) => {
@@ -55,6 +53,7 @@ const HomePage = () => {
 
             {/* Search Bar with Button */}
             <div className="search-container">
+                <form onSubmit={(e)=>handleSearchClick(e)}>
                 <input
                     type="text"
                     placeholder="Search for an album..."
@@ -62,9 +61,10 @@ const HomePage = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="search-bar"
                 />
-                <button onClick={handleSearchClick} className="search-button">
+                <button type="submit" className="search-button">
                     Search
                 </button>
+                </form>
             </div>
 
             {/* Albums List */}

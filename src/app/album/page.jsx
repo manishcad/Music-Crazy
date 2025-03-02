@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-
+import "../styles/album.css"
 const AlbumDetails = () => {
     const searchParams = useSearchParams();
     const url = searchParams.get("link");
@@ -11,7 +11,7 @@ const AlbumDetails = () => {
 
     useEffect(() => {
         if (!url) return;
-
+        setLoading(true)
         fetch(`/api/singlealbum?link=${encodeURIComponent(url)}`)
             .then((response) => response.json())
             .then((data) => {
@@ -27,9 +27,9 @@ const AlbumDetails = () => {
                 setLoading(false);
             });
     }, [url]);
-
-    if (loading) return <p>Loading...</p>;
-    if (!album) return <p>Album not found</p>;
+    console.log(loading)
+    if (loading) return <p className="extra-box">Loading...</p>;
+    if (!album) return <p className="extra-box">Album not found</p>;
 
     return (
         <div className="album-details-container">
@@ -54,64 +54,7 @@ const AlbumDetails = () => {
             
             </ul>
 
-            <style jsx>{`
-                .album-details-container {
-                    max-width: 700px;
-                    margin: 100px auto;
-                    
-                    padding: 20px;
-                    border-radius: 10px;
-                    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                    display:flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content:center;
-                }
-                .album-cover {
-                    width: 50%;
-                    border-radius: 10px;
-                    margin-bottom: 15px;
-                }
-                .album-title {
-                    font-size: 22px;
-                    font-weight: bold;
-                }
-                .song-list {
-                    list-style: none;
-                    padding: 0;
-                    width:100%;
-                }
-                .song-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 10px;
-                    border-bottom: 1px solid #ddd;
-                }
-                .song-name {
-                    text-decoration: none;
-                    color: #007bff;
-                    flex: 1;
-                    text-align: left;
-                }
-                .song-name:hover {
-                    text-decoration: underline;
-                }
-                .download-btn {
-                    background-color: #007bff;
-                    color: white;
-                    text-decoration: none;
-                    padding: 5px 10px;
-                    border-radius: 5px;
-                    font-size: 14px;
-                    text-align: center;
-                    white-space: nowrap;
-                }
-                .download-btn:hover {
-                    background-color: #0056b3;
-                }
-            `}</style>
+            
         </div>
     );
 };
