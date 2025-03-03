@@ -9,7 +9,7 @@ const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(false);
     const [defaultAlbums, setDefaultAlbums] = useState([]);
-
+    
     const router = useRouter();
 
     useEffect(() => {
@@ -31,31 +31,13 @@ const HomePage = () => {
         setLoading(false);
     };
 
-    const handleSearchClick = async (e) => {
+    const handleSearchClick = (e) => {
         e.preventDefault();
-        console.log("working")
         const query = searchQuery.trim();
         if (!query) return;
-    
-        setLoading(true);
-        const controller = new AbortController();
-        const signal = controller.signal;
-        try {
-            const response = await axios.get(`/api/search?q=${query}`,{ signal });
-            if (response.data && response.data.data) {
-                setAlbums(response.data.data);
-            } else {
-                setAlbums([]); // Reset if no data
-            }
-        } catch (error) {
-            if (axios.isCancel(error)) {
-                console.log("Request canceled:", error.message);
-            } else {
-                console.error("Error fetching albums:", error);
-            }
-        }
-        setLoading(false);
+        router.push(`/search?q=${query}`); // Redirect to search results page
     };
+    
     
 
     const handleAlbumClick = (link) => {

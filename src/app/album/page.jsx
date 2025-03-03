@@ -31,7 +31,7 @@ const AlbumDetails = () => {
                 console.error("Error fetching album details:", error);
                 setLoading(false);
             });
-    }, [url,currentSong]);
+    }, [url]);
 
     const handleSong=(e,song,actuallink,albumImage,index)=>{
         console.log(e)

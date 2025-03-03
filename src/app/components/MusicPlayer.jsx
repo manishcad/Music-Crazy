@@ -1,50 +1,50 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import "../styles/musicplayer.css";
-import Image from 'next/image';
-import { FaPlay, FaPause, FaTimes, FaMinus } from "react-icons/fa";
+import Image from "next/image";
+import { FaPlay, FaPause, FaTimes, FaMinus, FaVolumeUp, FaVolumeMute, FaRandom } from "react-icons/fa";
+
+const colorOptions = ["#FFAB76 ", "#1A1A2E", "#D8BFD8 ", "#ff33a8", "#C5E1A5 "]; // Sample color themes
 
 const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) => {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const audioRef = useRef(null);
+    const [volume, setVolume] = useState(50);
+    const [isMuted, setIsMuted] = useState(false);
+    const [isShuffled, setIsShuffled] = useState(false);
+    const [accentColor, setAccentColor] = useState(colorOptions[0]); // Default color
 
-    const song = album.songs[currentSongIndex];
+    const audioRef = useRef(null);
+    const songOrderRef = useRef([...Array(album.songs.length).keys()]); // Keeps track of song order
+    const song = album.songs[songOrderRef.current[currentSongIndex]];
 
     useEffect(() => {
         if (!song) return;
-    
-        // Pause and reset previous audio
+        setIsLoading(true);
+
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.src = "";
         }
-    
-        // Create new audio object
-        const audio = new Audio(album.musicLinks[currentSongIndex]);
+
+        const audio = new Audio(album.musicLinks[songOrderRef.current[currentSongIndex]]);
         audioRef.current = audio;
-    
-        // Play the audio after ensuring it's ready
+        audioRef.current.volume = volume / 100;
+
         audioRef.current.oncanplay = () => {
-            setDuration(audioRef.current.duration); // Set duration
-            audioRef.current.play().catch(error => console.error("Play error:", error));
+            setDuration(audioRef.current.duration);
+            setIsLoading(false);
+            audioRef.current.play().catch((error) => console.error("Play error:", error));
             setIsPlaying(true);
         };
-    
-        // Update progress bar
-        const updateProgress = () => {
-            setCurrentTime(audioRef.current.currentTime);
-        };
-    
+
+        const updateProgress = () => setCurrentTime(audioRef.current.currentTime);
         audioRef.current.addEventListener("timeupdate", updateProgress);
-    
-        // Auto-play next song when current song ends
-        audioRef.current.onended = () => {
-            playNextSong();
-        };
-    
+        audioRef.current.onended = playNextSong;
+
         return () => {
             if (audioRef.current) {
                 audioRef.current.pause();
@@ -53,29 +53,17 @@ const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) 
             }
         };
     }, [song]);
-    
-    
+
     const togglePlay = () => {
-        if (!audioRef.current) return;
-
-        if (isPlaying) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.play();
-        }
-
+        if (!audioRef.current || isLoading) return;
+        isPlaying ? audioRef.current.pause() : audioRef.current.play();
         setIsPlaying(!isPlaying);
     };
 
-    const playNextSong = () => {
-        let nextIndex = (currentSongIndex + 1) % album.songs.length;
-        setCurrentSongIndex(nextIndex);
-    };
+    const toggleShuffle = () => setIsShuffled(!isShuffled);
 
-    const playPreviousSong = () => {
-        let prevIndex = (currentSongIndex - 1 + album.songs.length) % album.songs.length;
-        setCurrentSongIndex(prevIndex);
-    };
+    const playNextSong = () => setCurrentSongIndex((prevIndex) => (prevIndex + 1) % album.songs.length);
+    const playPreviousSong = () => setCurrentSongIndex((prevIndex) => (prevIndex - 1 + album.songs.length) % album.songs.length);
 
     const handleSeek = (e) => {
         const barWidth = e.target.clientWidth;
@@ -83,6 +71,18 @@ const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) 
         const seekTime = (clickX / barWidth) * duration;
         audioRef.current.currentTime = seekTime;
         setCurrentTime(seekTime);
+    };
+
+    const handleVolumeChange = (e) => {
+        const newVolume = e.target.value;
+        setVolume(newVolume);
+        audioRef.current.volume = newVolume / 100;
+        setIsMuted(newVolume === "0");
+    };
+
+    const toggleMute = () => {
+        setIsMuted(!isMuted);
+        audioRef.current.volume = isMuted ? volume / 100 : 0;
     };
 
     const formatTime = (time) => {
@@ -94,9 +94,15 @@ const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) 
     if (!song) return null;
 
     return (
-        <div className={`music-player ${isMinimized ? "minimized" : ""}`}>
+        <div 
+            className={`music-player ${isMinimized ? "minimized" : ""}`} 
+            style={{ backgroundColor: accentColor, borderColor: accentColor }}
+        >
             {!isMinimized ? (
                 <>
+                
+
+                
                     <div className="player-header">
                         <button className="minimize-btn" onClick={() => setIsMinimized(true)}>
                             <FaMinus />
@@ -110,9 +116,9 @@ const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) 
                         <Image width={50} height={50} alt={song.songName} src={album.image} className="album-image" />
                         <p className="song-title">{song.songName}</p>
                     </div>
-                    
-                    <div className="progress-container" onClick={handleSeek}>
-                        <div className="progress-bar" style={{ width: `${(currentTime / duration) * 100}%` }}></div>
+
+                    <div className="progress-container" onClick={handleSeek} style={{ background: "#00000050" }}>
+                        <div className="progress-bar" style={{ width: `${(currentTime / duration) * 100}%`, background: "#ffffff" }}></div>
                     </div>
                     <div className="time-info">
                         <span>{formatTime(currentTime)}</span>
@@ -122,10 +128,33 @@ const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) 
                     <div className="player-controls">
                         <button onClick={playPreviousSong} className="control-btn">⏮</button>
                         <button onClick={togglePlay} className="control-btn">
-                            {isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
+                            {isLoading ? <div className="loader"></div> : isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
                         </button>
                         <button onClick={playNextSong} className="control-btn">⏭</button>
+                        <button onClick={toggleShuffle} className={`control-btn shuffle-btn ${isShuffled ? "active" : ""}`}>
+                            <FaRandom size={20} />
+                        </button>
                     </div>
+
+                    <div className="volume-container">
+                        <button onClick={toggleMute} className="volume-btn">
+                            {isMuted || volume === "0" ? <FaVolumeMute size={20} /> : <FaVolumeUp size={20} />}
+                        </button>
+                        <input type="range" min="0" max="100" value={volume} onChange={handleVolumeChange} className="volume-slider" />
+                    </div>
+
+                    {/* Color Picker */}
+                    <div className="color-picker">
+                        {colorOptions.map((color, index) => (
+                            <button 
+                                key={index} 
+                                className="color-option" 
+                                style={{ background: color, border: accentColor === color ? "2px solid #fff" : "none" }} 
+                                onClick={() => setAccentColor(color)}
+                            />
+                        ))}
+                    </div>
+              
                 </>
             ) : (
                 <div className="minimized-controls">
@@ -141,7 +170,9 @@ const MusicPlayer = ({ album, currentSongIndex, setCurrentSongIndex, onClose }) 
                 </div>
             )}
         </div>
+        
     );
+    
 };
 
 export default MusicPlayer;
