@@ -13,7 +13,10 @@ const HomePage = () => {
     const router = useRouter();
 
     useEffect(() => {
+        const controller = new AbortController();
         fetchDefaultAlbums();
+    
+        return () => controller.abort(); // Cleanup function cancels request on unmount
     }, []);
 
     const fetchDefaultAlbums = async () => {
@@ -30,20 +33,30 @@ const HomePage = () => {
 
     const handleSearchClick = async (e) => {
         e.preventDefault();
-        console.log("workinggggg 2")
-        alert("testing")
-        if (!searchQuery.trim()) return; // Prevent empty searches
+        console.log("working")
+        const query = searchQuery.trim();
+        if (!query) return;
+    
         setLoading(true);
-        
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axios.get(`/api/search?q=${searchQuery}`);
-            setAlbums(response.data.data);
+            const response = await axios.get(`/api/search?q=${query}`,{ signal });
+            if (response.data && response.data.data) {
+                setAlbums(response.data.data);
+            } else {
+                setAlbums([]); // Reset if no data
+            }
         } catch (error) {
-            console.error("Error fetching albums:", error);
+            if (axios.isCancel(error)) {
+                console.log("Request canceled:", error.message);
+            } else {
+                console.error("Error fetching albums:", error);
+            }
         }
-
         setLoading(false);
     };
+    
 
     const handleAlbumClick = (link) => {
         router.push(`/album?link=${link}`);
@@ -56,7 +69,7 @@ const HomePage = () => {
 
             {/* Search Bar with Button */}
             <div className="search-container">
-                <form onSubmit={(e)=>handleSearchClick(e)}>
+                <form onSubmit={handleSearchClick}>
                 <input
                     type="text"
                     placeholder="Search for an album..."
