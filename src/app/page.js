@@ -30,8 +30,8 @@ const HomePage = () => {
 
     const handleSearchClick = async (e) => {
         e.preventDefault();
-        console.log("workinggggg")
-        alert("hey 4")
+        console.log("workinggggg 2")
+        alert("testing")
         if (!searchQuery.trim()) return; // Prevent empty searches
         setLoading(true);
         if(searchQuery.trim()==="phedophile"){
