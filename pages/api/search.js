@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import { v4 as uuidv4 } from 'uuid';
 
 export default async function handler(req, res) {
+
     try {
         const {q}=req.query
         const albums = [];

@@ -8,24 +8,25 @@ const HomePage = () => {
     const [albums, setAlbums] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(false);
-    const [defaultAlbums, setDefaultAlbums] = useState([]);
+ 
     
     const router = useRouter();
 
     useEffect(() => {
+        console.log("use effect running")
         const controller = new AbortController();
         console.log(albums,"why is this not working")
         fetchDefaultAlbums();
     
         return () => controller.abort(); // Cleanup function cancels request on unmount
-    }, []);
+    },[]);
 
     const fetchDefaultAlbums = async () => {
         setLoading(true);
         try {
             const response = await axios.get(`/api/search?q=latest`); // Fetch latest or trending albums
             setAlbums(response.data.data);
-            setDefaultAlbums(response.data.data); // Store default albums separately
+             // Store default albums separately
         } catch (error) {
             console.error("Error fetching albums:", error);
         }
@@ -36,7 +37,7 @@ const HomePage = () => {
         e.preventDefault();
         const query = searchQuery.trim();
         if (!query) return;
-        router.push(`/search?q=${query}`); // Redirect to search results page
+        router.push(`/album/${query}`); // Redirect to search results page
     };
     
     
