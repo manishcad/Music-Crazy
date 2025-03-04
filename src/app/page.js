@@ -14,6 +14,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const controller = new AbortController();
+        console.log(albums)
         fetchDefaultAlbums();
     
         return () => controller.abort(); // Cleanup function cancels request on unmount
