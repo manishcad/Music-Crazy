@@ -14,6 +14,7 @@ const SearchPage = () => {
     useEffect(() => {
         if (!query) return;
         fetchSearchResults();
+        console.log(albums)
     }, [query]);
 
     const fetchSearchResults = async () => {
