@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import "./globals.css";
 import { Suspense } from "react";
 
-
+console.log("ok");
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
