@@ -12,7 +12,7 @@
     justify-content:center;
 }
 .album-cover {
-    width: 50%;
+    width: 50% !important;
     border-radius: 10px;
     margin-bottom: 15px;
 }

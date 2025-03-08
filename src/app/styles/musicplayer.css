@@ -15,7 +15,11 @@
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
 }
-
+.music-player-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 .player-header {
     display: flex;
     justify-content: space-between;

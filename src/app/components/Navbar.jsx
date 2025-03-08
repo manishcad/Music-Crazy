@@ -15,16 +15,16 @@ export default function Navbar() {
   <rect x="12" y="36" width="10" height="14" rx="2" fill="white"/>
   <rect x="42" y="36" width="10" height="14" rx="2" fill="white"/>
 </svg></Link>
-<Link href="/"><div className="website-header"> MusicApp</div></Link>
+<Link href="/"><div className="website-header"> SonicWaves</div></Link>
       </div>
       
       {/* Desktop Menu */}
       <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
         <li><Link href="/">Home</Link></li>
         <li><Link href="/albums">Albums</Link></li>
-        <li><Link href="/artists">Artists</Link></li>
-        <li><Link href="/playlists">Playlists</Link></li>
-        <li><Link href="/contact">Contact</Link></li>
+        <li><Link href="#">Artists</Link></li>
+        <li><Link href="#">Playlists</Link></li>
+        <li><Link href="#">Contact</Link></li>
       </ul>
 
       {/* Hamburger Menu (Mobile) */}
