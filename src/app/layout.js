@@ -3,6 +3,7 @@ import { MusicPlayerProvider } from "./context/MusicPlayerContext";
 import MusicPlayer from "./components/MusicPlayer";
 import Navbar from "./components/Navbar";
 import "./globals.css";
+import { Suspense } from "react";
 
 
 const geistSans = Geist({
@@ -27,11 +28,14 @@ export default function RootLayout({ children }) {
               <link rel="icon" href="/public/favicon.ico" />
           </head>
             <body>
+                <Suspense fallback={<p>Loading</p>}>
                 <MusicPlayerProvider>
-                    <Navbar />
-                    {children}
-                    <MusicPlayer /> {/* Ensure it's always present */}
-                </MusicPlayerProvider>
+                      <Navbar />
+                      {children}
+                      <MusicPlayer /> {/* Ensure it's always present */}
+                  </MusicPlayerProvider>
+
+              </Suspense>
             </body>
         </html>
     );
