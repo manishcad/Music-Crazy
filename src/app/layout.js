@@ -26,6 +26,8 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <head>
               <link rel="icon" href="/public/favicon.ico" />
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3356353210313034"
+     crossorigin="anonymous"></script>
           </head>
             <body>
                 <Suspense fallback={<p>Loading</p>}>
