@@ -70,3 +70,77 @@ body {
 }
 
 /* Underline effect */
+
+
+.neon-text {
+  font-size: 28px;
+  color: #ff00ff; /* Neon pink */
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #f0f, 0 0 40px #2b0cb7;
+  padding-left: 20px;
+}
+
+
+.neon-button {
+  background-color: #0d0d0d; /* Dark background */
+  color: #0ff; /* Neon cyan text */
+  font-size: 10px;
+  padding: 12px 24px;
+  border: 2px solid #0ff; /* Neon border */
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  width: 20%;
+  margin-top: 10px;
+  height: 50px;
+  transition: 0.3s ease-in-out;
+  text-shadow: 0 0 5px rgb(20, 31, 116), 0 0 10px rgb(255, 0, 72), 0 0 15px rgb(227, 21, 73);
+  box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #f0f, 0 0 40px #2b0cb7;
+}
+
+.neon-button:hover {
+  background-color: rgb(255, 0, 179); /* Brightens on hover */
+  color: #000;
+  text-shadow: 0 0 10px rgb(227, 7, 95), 0 0 20px rgb(150, 231, 10);
+  box-shadow: 0 0 10px rgb(209, 7, 71), 0 0 30px rgb(150, 235, 3), 0 0 40px #00f;
+}
+
+
+
+@keyframes neonGlow {
+  0% {
+    box-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #00f;
+  }
+  50% {
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #00f;
+  }
+  100% {
+    box-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #00f;
+  }
+}
+
+.glowing-box {
+  width: 200px;
+  height: 100px;
+  background-color: black;
+  border: 2px solid #0ff;
+  text-align: center;
+  line-height: 100px;
+  color: #0ff;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  animation: neonGlow 1.5s infinite alternate;
+}
+
+
+.neon-link {
+  color: #0ff;
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+}
+
+.neon-link:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}

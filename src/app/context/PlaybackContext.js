@@ -14,7 +14,7 @@ export const PlaybackContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (!currentAlbum || currentSongIndex === null) return;
-    const audio = new Audio(currentAlbum.musicLinks[currentSongIndex]);
+    const audio = new Audio(currentAlbum?.musicLinks[currentSongIndex]|| currentAlbum?.downloadLink);
     audioRef.current = audio;
     audioRef.current.volume = volume / 100;
 

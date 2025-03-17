@@ -5,14 +5,14 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 export default async function handler(req, res) {
     
     try {
-        let { page, limit } = req.query;
+        let { page } = req.query ||"1";
 
         // Default values if not provided
         page = parseInt(page) || 1; // Default to page 1
-        limit = parseInt(limit) || 10; // Default limit to 10
+        // Default limit to 10
 
         const albums = [];
-        const URL = `https://www7.hiphopkit.com/music/album/page/${page}/`;
+        const URL = `https://highlifeng.com/africa/american-hiphop-songs/page/${page}/`;
         const userAgents = [
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
@@ -35,23 +35,24 @@ export default async function handler(req, res) {
        
         const $ = cheerio.load(data);
 
-        $('.myfile').each((index, element) => {
+        $('.td-block-span6 div').each((index, element) => {
              // Stop when limit is reached
             
-            const uuid = uuidv4();
-            const image = $(element).find('.image img').attr("data-src") || 
-                "https://png.pngtree.com/png-vector/20221217/ourmid/pngtree-vinyl-disc-png-image_6527519.png";
-            const link = $(element).find('.infohome h3 a').attr('href');
-            const title = $(element).find('.infohome h3 a').text().trim();
+           
+            const title = $(element).find('h3').text().trim() 
+            const link = $(element).find('.td-module-image div a').attr('href');
+            const image = $(element).find('.td-module-image div a img').attr('data-img-url');
+            const date=$(element).find(".td-module-meta-info .td-post-date time").text().trim()
+         
 
-            if (link && image) {
-                albums.push({ link, title, image, id: uuid });
+            if (title) {
+                albums.push({title,link,image,date})
             }
         });
 
         res.status(200).json({
             page,
-            limit,
+          
             total: albums.length,
             data: albums
         });

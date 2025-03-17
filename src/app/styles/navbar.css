@@ -78,3 +78,21 @@
       color: white;
     }
   }
+
+
+
+
+  .header-logo {
+    
+    width: 50px;  /* Ensures the correct width */
+    height: auto;  /* Maintains aspect ratio */
+    border-radius: 10px;
+    background: transparent;
+   
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+  
+  .header-logo:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+    opacity: 0.8; /* Reduce opacity on hover */
+  }

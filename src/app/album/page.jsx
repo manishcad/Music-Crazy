@@ -11,12 +11,10 @@ const AlbumDetails = () => {
     const { playSong } = useContext(MusicPlayerContext);
     const [album, setAlbum] = useState(null);
     const [loading, setLoading] = useState(true);
-    
 
     useEffect(() => {
         if (!url) return;
         setLoading(true);
-        console.log("hello")
         fetch(`/api/singlealbum?link=${encodeURIComponent(url)}`)
             .then((response) => response.json())
             .then((data) => {

@@ -13,7 +13,19 @@ const nextConfig = {
         {
           protocol: 'https',
           hostname: 'upload.wikimedia.org',
-        }
+        },
+        {
+          protocol: 'https',
+          hostname: 'lh3.googleusercontent.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'assets.audiomack.com',
+        },
+        {
+          protocol: 'https',
+          hostname: '**', // Allows images from any HTTPS source
+        },
       ],
     },
   };

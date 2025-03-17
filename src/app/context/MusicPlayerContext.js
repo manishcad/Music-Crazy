@@ -9,6 +9,7 @@ export const MusicPlayerProvider = ({ children }) => {
     const audioRef = useRef(null); // Maintain audio element across pages
 
     const playSong = (albumData, songIndex) => {
+        console.log(albumData,'look here this albumData')
         setAlbum(albumData);
         setCurrentSongIndex(songIndex);
     };

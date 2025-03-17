@@ -7,10 +7,11 @@ export default async function handler(req, res) {
     try {
         const {q}=req.query
         const albums = [];
-        const URL = `https://www7.hiphopkit.com/search?q=${q}&folder=album`;
+        for(let i=1;i<4;i++){
+            const URL = `https://www7.hiphopkit.com/search?q=${q}&folder=album&p=${i}`;
 
-        const { data } = await axios.get(URL);
-        const $ = cheerio.load(data);
+            const { data } = await axios.get(URL);
+            const $ = cheerio.load(data);
 
         $('.result').each((index, element) => {
             
@@ -25,6 +26,9 @@ export default async function handler(req, res) {
                 albums.push({ link, title, image, id: uuid });
             }
         });
+            
+        }
+        
 
         res.status(200).json({
           
