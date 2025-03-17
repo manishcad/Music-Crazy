@@ -52,7 +52,7 @@ const SearchAlbumPage = () => {
                             <h4>{song.name}</h4>
                             
                             <div className={styles.downloadContainer}>
-                                <a href={`/hindi/album?link=`+song.link} target="_blank" rel="noopener noreferrer" className={styles.downloadLink}>
+                                <a href={`/hindi/album?link=`+song.link} rel="noopener noreferrer" className={styles.downloadLink}>
                                     <FaEye /> View
                                 </a>
                                 
