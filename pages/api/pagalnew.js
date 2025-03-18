@@ -6,6 +6,7 @@ export default async function handler(req, res) {
    
     try {
         const response = await axios.get(`https://pagalnew.com/category/bollywood-mp3-songs/${page || "1"}`);
+        console.log(response.data)
         const $ = cheerio.load(response.data);
         const allDetails = [];
 
